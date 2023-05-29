@@ -1,0 +1,58 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Score Prediction</title>
+</head>
+<body>
+    <h1>Score Prediction</h1>
+    <form id="scoreForm">
+        <label for="studyHours">Study Hours:</label>
+        <input type="text" id="studyHours" name="studyHours" required>
+        <button type="submit">Predict</button>
+    </form>
+
+    <div id="result"></div>
+
+    <script>
+        const form = document.querySelector('#scoreForm');
+        const resultDiv = document.querySelector('#result');
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const studyHours = document.querySelector('#studyHours').value;
+            const parsedStudyHours = parseFloat(studyHours);
+
+            if (isNaN(parsedStudyHours)) {
+                resultDiv.textContent = 'Invalid study hours entered';
+                return;
+            }
+
+            try {
+                const response = await fetch('/predict', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ study_hours: parsedStudyHours })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to predict score');
+                }
+
+                const data = await response.json();
+                const scores = data.scores;
+
+                resultDiv.textContent = `Predicted Scores: ${scores}`;
+            } catch (error) {
+                console.error(error);
+                resultDiv.textContent = 'Error occurred during prediction';
+            }
+        });
+    </script>
+</body>
+</html>
+
+
