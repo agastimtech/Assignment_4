@@ -53,9 +53,6 @@ linear_reg = model_building(LinearRegression(),x_train,y_train)
 print(linear_reg)
 
 #Evaluation
-# y_pred = linear_reg.predict(x_test)
-# print(y_pred)
-
 def evaluation(model,ind_var,y_act):
     pred=model.predict(ind_var)
 
@@ -74,10 +71,11 @@ evaluation(linear_reg,x_test,y_test)
 print('Train Data Evaluation'.center(50,'*'))
 evaluation(linear_reg,x_train,y_train)
 
-# loop = events.get_running_loop()
-# asyncio.gather(asyncio.create_task(task1),asyncio.create_task(task2))
-
 def save_model():
     with open(r'/home/agasti/Desktop/Assignment 4/app/model/model_pkl', 'wb') as file:
         lin_model = pickle.dump(linear_reg, file)
     return lin_model
+
+def load_model():
+    pickled_model = pickle.load(open(save_model(), 'rb'))
+    return pickled_model

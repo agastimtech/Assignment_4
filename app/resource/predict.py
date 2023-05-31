@@ -3,7 +3,7 @@ import aiohttp.web
 import pandas as pd
 import numpy as np
 import pickle
-# from app.model.model import load_model
+from app.common.utils import load_model
 from aiohttp import web
 import aiohttp_jinja2
 import json
